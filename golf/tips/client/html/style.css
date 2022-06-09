@@ -1,0 +1,37 @@
+
+*
+{
+    user-select: none;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    outline: none;
+    font-family: "Source Sans Pro", 'Courier New', Courier, monospace;
+}
+
+div.tip
+{
+    position: fixed;
+    right: -100vw;
+    top: 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-left: 6px solid white;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: "Source Sans Pro", 'Courier New', Courier, monospace;
+}
+
+div.tip div.title
+{
+    font-size: 34px;
+    margin-bottom: 6px;
+}
+
+div.tip div.description
+{
+    font-family: "Source Sans Pro", 'Courier New', Courier, monospace;
+    font-weight: normal;
+    font-size: 22px;
+    color: rgb(238, 238, 238);
+}
