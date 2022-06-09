@@ -3,7 +3,7 @@ PlayerStatsManager = class()
 function PlayerStatsManager:__init()
 
     Events:Subscribe("gamedatabase/ready", function() self:GameDatabaseReady() end)
-    Events:Subscribe("ClientReady", function(args) self:ClientReady(args) end)
+    Events:Subscribe("ClientModulesLoaded", function(args) self:ClientModulesLoaded(args) end)
     Events:Subscribe("MinuteTick", function() self:MinuteTick() end)
     Events:Subscribe("GameEnd", function() self:GameEnd() end)
 
@@ -108,7 +108,7 @@ function PlayerStatsManager:GameDatabaseReady()
 end
 
 -- Called when a client has joined
-function PlayerStatsManager:ClientReady(args)
+function PlayerStatsManager:ClientModulesLoaded(args)
     local query = "SELECT * FROM player_data WHERE unique_id=@uniqueid"
     local params = {["@uniqueid"] = args.player:GetUniqueId()}
     SQL:Fetch(query, params, function(result)

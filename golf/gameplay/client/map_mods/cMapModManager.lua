@@ -34,11 +34,7 @@ function cMapModManager:OnGameEnd()
 end
 
 function cMapModManager:RegisterMapMods()
-    self.map_mods_list[CourseEnum.FortMercerModded] = cFortMercerMapMod
-    self.map_mods_list[CourseEnum.TwoFarmsModded] = cTwoFarmsMapMod
-    self.map_mods_list[CourseEnum.GranitePassModded] = cGranitePassMapMod
-    self.map_mods_list[CourseEnum.OwanjilaModded] = cOwanjilaMapMod
-    self.map_mods_list[CourseEnum.FlatIronIslandsModded] = cFlatIronIslandsMapMod
+    
 end
 
 cMapModManager = cMapModManager()

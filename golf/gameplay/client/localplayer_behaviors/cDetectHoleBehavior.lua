@@ -4,7 +4,7 @@ function DetectHoleBehavior:__init()
     self.current_hole = 1
 
     self.current_hole_marker = Marker({
-        type = MarkerTypes.Cylinder,
+        type = MarkerTypes.VerticalCylinder,
         position = vector3(0, 0, 0),
         direction = vector3(0, 0, 0),
         rotation = vector3(0, 0, 0),
@@ -63,27 +63,15 @@ end
 
 function DetectHoleBehavior:CreateDetectionVolume()
 
-    if self.volume then
-        self.volume:Remove()
-        self.volume = nil
-    end
-
     local hole_size_powerup = PowerupManager.powerup_behaviors[PowerupTypesEnum.IncreaseHoleSize]
-    local size = hole_size_powerup.activated and self.current_hole_size + hole_size_powerup.size_addition or self.current_hole_size
-
-    self.volume = Volume({
-        position = self.current_hole_position,
-        rotation = vector3(0.0, 0.0, 0.0),
-        size = vector3(size, size, size),
-        type = VolumeType.Sphere
-    })
+    self.size = hole_size_powerup.activated and self.current_hole_size + hole_size_powerup.size_addition or self.current_hole_size
 
 end
 
 function DetectHoleBehavior:CreateHoleEffects(position)
 
     World:SetTimeScale(0.2)
-    local fx_to_play = "RespawnPulse01"
+    local fx_to_play = IsRedM and "RespawnPulse01" or "MP_Celeb_Win"
     AnimPostFX:Play(fx_to_play)
 
     Citizen.CreateThread(function()
@@ -97,7 +85,7 @@ function DetectHoleBehavior:CreateHoleEffects(position)
 
     for _, color in ipairs(self.hole_fx_marker_colors) do
         local marker = Marker({
-            type = MarkerTypes.Cylinder,
+            type = MarkerTypes.DebugSphere,
             position = position,
             direction = vector3(0, 0, 0),
             rotation = vector3(math.random(-180, 180), math.random(-180, 180), math.random(-180, 180)),
@@ -144,13 +132,10 @@ end
 function DetectHoleBehavior:HoleDetection()
     --print("entered hole detection with current hole: ", self.current_hole)
     --print("next hole position: ", self.current_hole_position)
-    if self.volume and LocalPlayer:GetPed():IsInVolume(self.volume) then
+    if Vector3Math:Distance(LocalPlayer:GetPosition(), self.current_hole_position) < self.size then
         Network:Send("game/scored_hole" .. tostring(GameManager:GetGameId()), {
             hole = self.current_hole
         })
-
-        self.volume:Remove()
-        self.volume = nil
 
         -- Create fireworks because they got a hole!
         Sounds:PlaySound({name = "got_hole", volume = 0.5})

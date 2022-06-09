@@ -17,7 +17,9 @@ end
 function WigglePowerup:Activate(args)
 
     self.active = true
-    KeyPress:Subscribe(self.control)
+    if IsRedM then
+        KeyPress:Subscribe(self.control)
+    end
     self.keypress = Events:Subscribe("KeyUp", function(args) self:KeyUp(args) end)
     
 end
@@ -32,14 +34,21 @@ function WigglePowerup:KeyUp(args)
     if not self.active then return end
 
     if args.key == self.control and self:CanUse() then
-        LocalPlayer:GetPed():SetVelocity(vector3(math.random(-7,7), math.random(5,10), math.random(-7,7)))
-        GamePlayUI:ModifyPowerup({
-            type = self.type,
-            duration = self.cooldown_time
-        })
-        CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
-        self.cooldown:Restart()
+        self:KeyPressed()
     end
+end
+
+function WigglePowerup:KeyPressed()
+    if not self.active then return end
+    if not self:CanUse() then return end
+
+    LocalPlayer:GetPed():SetVelocity(vector3(math.random(-7,7), math.random(5,10), math.random(-7,7)))
+    GamePlayUI:ModifyPowerup({
+        type = self.type,
+        duration = self.cooldown_time
+    })
+    CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
+    self.cooldown:Restart()
 end
 
 -- Ends a powerup if it is an ongoing effect

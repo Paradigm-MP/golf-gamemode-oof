@@ -4,9 +4,14 @@ function GamePlayUI:__init()
     self.ui = UI:Create({name = "gameplayui", path = "gameplay/client/ui/html/index.html", visible = false})
     self.scoreboard = UI:Create({name = "scoreboard", path = "gameplay/client/ui/html/scoreboard.html", visible = false})
 
-    self.scoreboard_control = Control.CreatorMenuToggle
+    self.scoreboard_control = IsRedM and Control.CreatorMenuToggle or Control.FrontendLeaderboard
 
-    HUD:HideComponent(HudComponent.everything)
+    if IsRedM then
+        HUD:HideComponent(HudComponent.everything)
+    elseif IsFiveM then
+        HUD:SetVisible(false)
+    end
+
     HUD:SetDisplayRadar(false)
 
     self:HandleScoreboardKeypresses()
@@ -27,8 +32,9 @@ function GamePlayUI:PlayerNetworkValueChanged(args)
 end
 
 function GamePlayUI:HandleScoreboardKeypresses()
-
+    
     KeyPress:Subscribe(self.scoreboard_control)
+        
     Events:Subscribe("KeyDown", function(args)
         if args.key == self.scoreboard_control and GameManager:GetIsGameInProgress() then
             self.scoreboard:Show()

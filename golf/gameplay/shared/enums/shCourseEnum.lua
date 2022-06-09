@@ -6,98 +6,42 @@ CourseEnum = class(Enum)
 function CourseEnum:__init()
     self:EnumInit()
 
-    self.TwoFarmsEasy = 1
-    self:SetDescription(self.TwoFarmsEasy, "Two Farms")
+    self.TestMapEasy = 1
+    self:SetDescription(self.TestMapEasy, "Test Map")
 
-    self.ForestPathEasy = 2
-    self:SetDescription(self.ForestPathEasy, "Forest Path")
+    self.DelPerroPierMedium = 2
+    self:SetDescription(self.DelPerroPierMedium, "Del Perro Pier")
 
-    self.BolgerGladeEasy = 3
-    self:SetDescription(self.BolgerGladeEasy, "Bolger Glade")
+    self.TheConcreteRiverMedium = 3
+    self:SetDescription(self.TheConcreteRiverMedium, "The Concrete River")
 
-    self.StrawberryMedium = 4
-    self:SetDescription(self.StrawberryMedium, "Strawberry")
+    self.CozyCoveHard = 4
+    self:SetDescription(self.CozyCoveHard, "Cozy Cove")
 
-    self.ThievesLandingMedium = 5
-    self:SetDescription(self.ThievesLandingMedium, "Thieves Landing")
+    self.MountGordoExtreme = 5
+    self:SetDescription(self.MountGordoExtreme, "Mount Gordo")
 
-    self.RockFormationsMedium = 6
-    self:SetDescription(self.RockFormationsMedium, "Rock Formations")
+    self.MorningwoodGraveyardEasy = 6
+    self:SetDescription(self.MorningwoodGraveyardEasy, "Morningwood Graveyard")
 
-    self.QuakersCoveMedium = 7
-    self:SetDescription(self.QuakersCoveMedium, "Quaker's Cove")
+    self.GolfingSocietyEasy = 7
+    self:SetDescription(self.GolfingSocietyEasy, "Golfing Society")
 
-    self.StDenisTrainsHard = 8
-    self:SetDescription(self.StDenisTrainsHard, "St. Denis Trains")
+    self.VinewoodDamMedium = 8
+    self:SetDescription(self.VinewoodDamMedium, "Vinewood Dam")
 
-    self.FlatIronIslandsHard = 9
-    self:SetDescription(self.FlatIronIslandsHard, "Flat Iron Islands")
+    self.LandActReservoirHard = 9
+    self:SetDescription(self.LandActReservoirHard, "Land Act Reservoir")
 
-    self.PlateausHard = 10
-    self:SetDescription(self.PlateausHard, "Plateaus")
+    self.InternationalAirportMedium = 10
+    self:SetDescription(self.InternationalAirportMedium, "International Airport")
 
-    self.CalumetRavineHard = 11
-    self:SetDescription(self.CalumetRavineHard, "Calumet Ravine")
+    self.ElysianIslandInsane = 11
+    self:SetDescription(self.ElysianIslandInsane, "Elysian Island")
 
-    self.OwanjilaHard = 12
-    self:SetDescription(self.OwanjilaHard, "Owanjila")
+    self.LagoZancudoMedium = 12
+    self:SetDescription(self.LagoZancudoMedium, "Lago Zancudo")
 
-    self.BrandywineDropHard = 13
-    self:SetDescription(self.BrandywineDropHard, "Brandywine Drop")
-
-    self.MountShannExtreme = 14
-    self:SetDescription(self.MountShannExtreme, "Mount Shann")
-
-    self.BridgeRunExtreme = 15
-    self:SetDescription(self.BridgeRunExtreme, "Bridge Run")
-
-    self.StDenisRooftopsExtreme = 16
-    self:SetDescription(self.StDenisRooftopsExtreme, "St. Denis Rooftops")
-
-    self.MountHagenExtreme = 17
-    self:SetDescription(self.MountHagenExtreme, "Mount Hagen")
-
-    self.PlateauHopsInsane = 18
-    self:SetDescription(self.PlateauHopsInsane, "Plateau Hops")
-
-    self.SnowTourInsane = 19
-    self:SetDescription(self.SnowTourInsane, "Snow Tour")
-
-    self.MantecaFallsInsane = 20
-    self:SetDescription(self.MantecaFallsInsane, "Manteca Falls")
-
-    self.CotorraSpringsEasy = 21
-    self:SetDescription(self.CotorraSpringsEasy, "Cotorra Springs")
-
-    self.GranitePassHard = 22
-    self:SetDescription(self.GranitePassHard, "Granite Pass")
-
-    self.DonnerFallsExtreme = 23
-    self:SetDescription(self.DonnerFallsExtreme, "Donner Falls")
-
-    self.OCreaghsRunMedium = 24
-    self:SetDescription(self.OCreaghsRunMedium, "O'Creagh's Run")
-
-    self.LakeDonJulioMedium = 25
-    self:SetDescription(self.LakeDonJulioMedium, "Lake Don Julio")
-
-    self.AlpineWaterwayMedium = 26
-    self:SetDescription(self.AlpineWaterwayMedium, "Alpine Waterway")
-
-    self.FortMercerModded = 27
-    self:SetDescription(self.FortMercerModded, "Fort Mercer")
-
-    self.TwoFarmsModded = 28
-    self:SetDescription(self.TwoFarmsModded, "Two Farms")
-
-    self.GranitePassModded = 29
-    self:SetDescription(self.GranitePassModded, "Granite Pass")
-
-    self.OwanjilaModded = 30
-    self:SetDescription(self.OwanjilaModded, "Owanjila")
-
-    self.FlatIronIslandsModded = 31
-    self:SetDescription(self.FlatIronIslandsModded, "Flat Iron Islands")
 end
 
 CourseEnum = CourseEnum()

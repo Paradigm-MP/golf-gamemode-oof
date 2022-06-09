@@ -10,6 +10,7 @@ function AirJordansPowerup:__init()
 
     -- Inputs that trigger velocity changes
     self.current_input = 0
+    
     self.move_inputs = 
     {
         [Control.MoveUpOnly] = 1,
@@ -21,41 +22,41 @@ function AirJordansPowerup:GetActiveId()
     return self.active_id
 end
 
--- skel_r_foot
--- skel_l_foot
--- GetWorldPositionOfEntityBone
--- GetEntityBoneIndexByName
-
 function AirJordansPowerup:StartUsing()
 
     local markers = {
         {
             marker = Marker({
-                type = MarkerTypes.Sphere,
+                type = MarkerTypes.DebugSphere,
                 position = vector3(0, 0, 0),
                 direction = vector3(0, 0, 0),
                 rotation = vector3(0,0,0),
                 scale = vector3(0.25, 0.25, 0.25),
                 color = Color:FromHSV(0.65, 0.8, 0.7, 0.3),
             }),
-            bone_name = "skel_r_foot"
+            bone_name = IsRedM and "skel_r_foot" or "SKEL_R_Foot"
         },
         {
             marker = Marker({
-                type = MarkerTypes.Sphere,
+                type = MarkerTypes.DebugSphere,
                 position = vector3(0, 0, 0),
                 direction = vector3(0, 0, 0),
                 rotation = vector3(0,0,0),
                 scale = vector3(0.25, 0.25, 0.25),
                 color = Color:FromHSV(0.65, 0.8, 0.7, 0.3),
             }),
-            bone_name = "skel_l_foot"
+            bone_name = IsRedM and "skel_l_foot" or "SKEL_L_Foot"
         }
     }
 
     self.render = Events:Subscribe("Render", function(args)
+        local ped = LocalPlayer:GetPed()
         for _, data in pairs(markers) do
-            data.marker.position = LocalPlayer:GetPed():GetEntityBonePosition(data.bone_name)
+            if IsRedM then
+                data.marker.position = ped:GetEntityBonePosition(data.bone_name)
+            else
+                data.marker.position = ped:GetBonePositionByName(data.bone_name)
+            end
         end
     end)
 
@@ -105,7 +106,11 @@ function AirJordansPowerup:Activate(args)
     self.active = true
     self.activated = false
     self.charges = shGameplayConfig.PowerupData[self.type].maxCharges
-    KeyPress:Subscribe(self.control)
+
+    if IsRedM then
+        KeyPress:Subscribe(self.control)
+    end
+
     self.keypress = Events:Subscribe("KeyUp", function(args) self:KeyUp(args) end)
     
 end
@@ -119,20 +124,27 @@ function AirJordansPowerup:KeyUp(args)
     if not self.active then return end
 
     if args.key == self.control and self:CanUse() then
-        self.charges = self.charges - 1
-        self.activated = true
-        self.cooldown_time = shGameplayConfig.PowerupData[self.type].duration
-        GamePlayUI:ModifyPowerup({
-            type = self.type,
-            duration = self.cooldown_time,
-            charges = self.charges
-        })
-        self.cooldown:Restart()
-        CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
-
         self:StartUsing()
-
     end
+end
+
+function AirJordansPowerup:KeyPressed()
+    if not self.active then return end
+    if not self:CanUse() then return end
+
+    self.charges = self.charges - 1
+    self.activated = true
+    self.cooldown_time = shGameplayConfig.PowerupData[self.type].duration
+    GamePlayUI:ModifyPowerup({
+        type = self.type,
+        duration = self.cooldown_time,
+        charges = self.charges
+    })
+    self.cooldown:Restart()
+    CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
+
+    self:StartUsing()
+
 end
 
 -- Ends a powerup if it is an ongoing effect

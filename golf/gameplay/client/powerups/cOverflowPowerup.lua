@@ -26,15 +26,12 @@ end
 
 function OverflowPowerup:KeyUp(args)
     if not self.active then return end
+end
 
-    if args.key == self.control and self:CanUse() then
-        LocalPlayer:GetPed():SetVelocity(vector3(math.random(-7,7), math.random(5,10), math.random(-7,7)))
-        GamePlayUI:ModifyPowerup({
-            type = self.type,
-            duration = self.cooldown_time
-        })
-        self.cooldown:Restart()
-    end
+
+function OverflowPowerup:KeyPressed()
+    if not self.active then return end
+    if not self:CanUse() then return end
 end
 
 -- Ends a powerup if it is an ongoing effect

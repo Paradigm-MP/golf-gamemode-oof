@@ -17,11 +17,13 @@ function GameManager:__init()
 
     self.scores = {}
 
-    -- Preload all player models
-    RequestModel(GetHashKey("Player_Zero"))
-    RequestModel(GetHashKey("mp_female"))
-    RequestModel(GetHashKey("mp_male"))
-    RequestModel(GetHashKey("Player_Three"))
+    if IsRedM then
+        -- Preload all player models
+        RequestModel(GetHashKey("Player_Zero"))
+        RequestModel(GetHashKey("mp_female"))
+        RequestModel(GetHashKey("mp_male"))
+        RequestModel(GetHashKey("Player_Three"))
+    end
 
     if IsRedM then
         Imap:LoadValentine()
@@ -226,6 +228,13 @@ function GameManager:StartGame(args)
             name = self.map_data.filter.name,
             amount = self.map_data.filter.amount
         })
+    else
+        if IsFiveM then
+            Filter:Apply({
+                name = "rply_saturation",
+                amount = 0.05
+            })
+        end
     end
 
     local light = Light({
@@ -275,18 +284,27 @@ function GameManager:StartRagdollLoop()
         while self:GetIsGameInProgress() do
             if self.enable_ragdoll_reset then
                 localplayer_ped = LocalPlayer:GetPed()
+                
                 if not localplayer_ped:IsRagdoll() then
-                    localplayer_ped:SetToRagdoll(-1, 1000, 1)
+                    if IsRedM then
+                        localplayer_ped:SetToRagdoll(-1, 1000, 1)
+                    end
+                    if IsFiveM then
+                        localplayer_ped:SetToRagdoll(1000, 1000, 0)
+                    end
                 else
                     localplayer_ped:ResetRagdollTimer()
                 end
             end
+            -- Keep ped invincible
+            LocalPlayer:GetPed():SetInvincible(true)
             Citizen.Wait(100)
         end
     end)
 end
 
 function GameManager:StartRagdollMonitoring()
+    -- can we improve this?
     self.disable_ragdoll_timer = Timer()
     Citizen.CreateThread(function()
         while self:GetIsGameInProgress() do
@@ -319,7 +337,7 @@ function GameManager:GetRandomPlayerSpawnPoint()
 end
 
 function GameManager:Respawn(cb)
-    local model_data_split = split(LocalPlayer:GetPlayer():GetValue("Model"), "|")
+    local model_data_split = split(LocalPlayer:GetPlayer():GetValue("Model") or "", "|")
     local model = model_data_split[1]
     local outfit = tonumber(model_data_split[2])
     if outfit == nil then outfit = tonumber(split(model_data_split[2], ",")[1]) end
@@ -331,16 +349,19 @@ function GameManager:Respawn(cb)
             if cb then cb() end
             -- override health
             LocalPlayer:SetHealth(LocalPlayer.base_health)
-            LocalPlayer:GetPed():SetOutfitPreset(outfit)
+            if IsRedM then
+                LocalPlayer:GetPed():SetOutfitPreset(outfit)
 
-            -- Continuously set outfit in case they have not loaded the model
-            Citizen.CreateThread(function()
-                local timer = Timer()
-                while timer:GetSeconds() < 20 do
-                    LocalPlayer:GetPed():SetOutfitPreset(outfit)
-                    Citizen.Wait(1000)
-                end
-            end)
+                -- Continuously set outfit in case they have not loaded the model
+                Citizen.CreateThread(function()
+                    local timer = Timer()
+                    while timer:GetSeconds() < 20 do
+                        LocalPlayer:GetPed():SetOutfitPreset(outfit)
+                        Citizen.Wait(1000)
+                    end
+                end)
+            end
+
 
         end
     })
@@ -386,7 +407,7 @@ function GameManager:SpawnHoleObjects()
         }))
 
         table.insert(self.markers, Marker({
-            type = MarkerTypes.Cylinder,
+            type = MarkerTypes.VerticalCylinder,
             position = pos,
             direction = vector3(0, 0, 0),
             rotation = vector3(0, 0, 0),
@@ -407,11 +428,11 @@ function GameManager:SpawnHoleObjects()
 end
 
 function GameManager:Render()
-    if shGameplayConfig.ScreenshotMode then return end
-
     for _, marker in pairs(self.markers) do
         marker:Draw()
     end
+
+    if shGameplayConfig.ScreenshotMode then return end
 
     -- Disable collision of hole flags
     for _, object in pairs(self.hole_objects) do
@@ -419,26 +440,29 @@ function GameManager:Render()
     end
 
     if self:GetIsGameInProgress() and self.current_hole <= self.hole_count then
-        local sprite_size = 0.03
+        local sprite_size = IsRedM and 0.03 or 0.02
         local ui_size = UI:GetSize()
         local ui_aspect_ratio = ui_size.x / ui_size.y
         local size = {x = sprite_size, y = sprite_size * ui_aspect_ratio}
         local hole_pos = self:GetHolePosition(self.current_hole)
         local pos_2d = Render:WorldToHud(hole_pos)
+
+        local texture_dict = IsRedM and "generic_textures" or "golfputting"
+        local texture_name = IsRedM and "medal_bronze" or "puttingmarker"
         
         -- Render next hole indicator
         if self.current_hole + 1 <= self.hole_count then
             local hole_pos_next = self:GetHolePosition(self.current_hole + 1)
             local pos_2d_next = Render:WorldToScreen(hole_pos_next)
-            local alpha = 75
+            local alpha = 100
 
             Render:DrawSprite(
                 pos_2d_next,
                 {x = size.x * 0.9, y = size.y * 0.9},
                 0,
                 Color(255, 255, 255, alpha),
-                "generic_textures",
-                "medal_bronze"
+                texture_dict,
+                texture_name
             )
 
             Render:DrawSprite(
@@ -446,18 +470,33 @@ function GameManager:Render()
                 {x = size.x * 0.8, y = size.y * 0.8},
                 0,
                 Color(0, 155, 250, alpha),
-                "generic_textures",
-                "medal_bronze"
+                texture_dict,
+                texture_name
             )
             
             -- if looking at it, draw "Next Hole"
-            Render:DrawText(
-                pos_2d + vector2(0.02, -0.02),
-                string.format("%.0fm", Vector3Math:Distance(LocalPlayer:GetPosition(), hole_pos)),
-                Colors.White,
-                0.5,
-                true
-            )
+            local diff = vector2(0.5, 0.5) - pos_2d_next
+            local dist = math.sqrt(diff.x * diff.x + diff.y * diff.y)
+            if dist < 0.09 then
+                if IsRedM then
+                    Render:DrawText(
+                        pos_2d_next + vector2(0.02, -0.02),
+                        "Next Hole",
+                        Colors.White,
+                        0.5,
+                        true
+                    )
+                elseif IsFiveM then
+                    Render:SetTextEdge(0.1, Colors.Black)
+                    Render:DrawText(
+                        pos_2d_next + vector2(0.02, -0.02),
+                        "Next Hole",
+                        Colors.White,
+                        0.5,
+                        0
+                    )
+                end
+            end
         end
 
         Render:DrawSprite(
@@ -465,8 +504,8 @@ function GameManager:Render()
             {x = size.x * 1.1, y = size.y * 1.1},
             0,
             Color(255, 255, 255, 255),
-            "generic_textures",
-            "medal_bronze"
+            texture_dict,
+            texture_name
         )
 
         Render:DrawSprite(
@@ -474,17 +513,28 @@ function GameManager:Render()
             size,
             0,
             Color(0, 200, 0, 255),
-            "generic_textures",
-            "medal_bronze"
+            texture_dict,
+            texture_name
         )
 
-        Render:DrawText(
-            pos_2d + vector2(0.02, -0.02),
-            string.format("%.0fm", Vector3Math:Distance(LocalPlayer:GetPosition(), hole_pos)),
-            Colors.White,
-            0.5,
-            true
-        )
+        if IsRedM then
+            Render:DrawText(
+                pos_2d + vector2(0.02, -0.02),
+                string.format("%.0fm", Vector3Math:Distance(LocalPlayer:GetPosition(), hole_pos)),
+                Colors.White,
+                0.5,
+                true
+            )
+        elseif IsFiveM then
+            Render:SetTextEdge(0.1, Colors.Black)
+            Render:DrawText(
+                pos_2d + vector2(0.02, -0.02),
+                string.format("%.0fm", Vector3Math:Distance(LocalPlayer:GetPosition(), hole_pos)),
+                Colors.White,
+                0.5,
+                0
+            )
+        end
     end
 end
 

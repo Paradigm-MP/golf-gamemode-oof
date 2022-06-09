@@ -1,0 +1,51 @@
+{
+    "name": "The Concrete River",
+    "image": "images/theconcreteriver.jpg",
+    "enabled": true,
+    "difficulty": "Medium",
+    "time":
+    {
+        "hour": 8, 
+        "minute": 0,
+        "timestepEnabled": false
+    },
+    "weather": "extrasunny",
+    "playerSpawnPoints":
+    [
+        {"pos": {"x": -872.00885009766, "y": -1643.9571533203, "z": 1.1642192602158},"heading": 72.120079040527}
+    ],
+    "holes": 
+    [
+        {
+            "pos": {"x": -760.99591064453, "y": -1579.51953125, "z": 5.5315275192261},
+            "size": 4,
+            "par": 3
+        },
+        {
+            "pos": {"x": -636.93963623047, "y": -1499.0399169922, "z": 5.2159733772278},
+            "size": 4,
+            "par": 3
+        },
+        {
+            "pos": {"x": -441.79592895508, "y": -1580.4295654297, "z": 1.1589688062668},
+            "size": 4,
+            "par": 4
+        },
+        {
+            "pos": {"x": -235.88638305664, "y": -1805.3057861328, "z": 22.806230545044},
+            "size": 4,
+            "par": 4
+        },
+        {
+            "pos": {"x": 29.541429519653, "y": -2036.3851318359, "z": 5.6052513122559},
+            "size": 2,
+            "par": 5
+        }
+    ],
+    "invisibleObjects":
+    {
+    },
+    "objectSpawnPoints":
+    [
+    ]
+}

@@ -19,7 +19,9 @@ function FreezePowerup:Activate(args)
     self.charges = shGameplayConfig.PowerupData[self.type].maxCharges
 
     self.active = true
-    KeyPress:Subscribe(self.control)
+    if IsRedM then
+        KeyPress:Subscribe(self.control)
+    end
     self.keypress = Events:Subscribe("KeyUp", function(args) self:KeyUp(args) end)
     
 end
@@ -32,18 +34,25 @@ function FreezePowerup:KeyUp(args)
     if not self.active then return end
 
     if args.key == self.control and self:CanUse() then
-        LocalPlayer:GetPed():SetVelocity(vector3(0,0,0))
-
-        self.charges = self.charges - 1
-        self.cooldown_time = 30
-        GamePlayUI:ModifyPowerup({
-            type = self.type,
-            duration = self.cooldown_time,
-            charges = self.charges
-        })
-        CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
-        self.cooldown:Restart()
+        self:KeyPressed()
     end
+end
+
+function FreezePowerup:KeyPressed()
+    if not self.active then return end
+    if not self:CanUse() then return end
+
+    LocalPlayer:GetPed():SetVelocity(vector3(0,0,0))
+
+    self.charges = self.charges - 1
+    self.cooldown_time = 30
+    GamePlayUI:ModifyPowerup({
+        type = self.type,
+        duration = self.cooldown_time,
+        charges = self.charges
+    })
+    CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
+    self.cooldown:Restart()
 end
 
 -- Ends a powerup if it is an ongoing effect

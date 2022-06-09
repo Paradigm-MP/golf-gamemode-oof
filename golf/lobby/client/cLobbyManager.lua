@@ -6,7 +6,7 @@ function LobbyManager:__init()
     self.ui = UI:Create({name = "lobby", path = "lobby/client/html/index.html"})
     self.cam_pos = 
     {
-        start_pos = vector3(-2559, -3650, 233),
+        start_pos = vector3(-1559, -1650, 233),
         end_pos = vector3(3721, 1292, 243)
     }
 
@@ -70,8 +70,11 @@ function LobbyManager:__init()
         })
     end)
 
-    KeyPress:Subscribe(Control.FrontendPause)
-    KeyPress:Subscribe(Control.FrontendPauseAlternate)
+    if IsRedM then
+        -- TODO: fix for fivem
+        KeyPress:Subscribe(Control.FrontendPause)
+        KeyPress:Subscribe(Control.FrontendPauseAlternate)
+    end
 
     Events:Subscribe("KeyUp", function(args) self:KeyUp(args) end)
 
@@ -207,6 +210,11 @@ function LobbyManager:UIReady()
     Network:Send("lobby/maps/sync/ready")
     self:Reset()
     self:GetUI():BringToFront()
+    
+    -- Bring to front again to go over chat
+    Citizen.SetTimeout(1000, function()
+        self:GetUI():BringToFront()
+    end)
 end
 
 -- Resets the UI on load or after a game
@@ -232,7 +240,7 @@ function LobbyManager:Reset()
         end
     })
 
-    World:SetWeather("SUNNY")
+    World:SetWeather(IsRedM and "SUNNY" or "EXTRASUNNY")
 
     UI:SetCursor(true)
     UI:SetFocus(true)

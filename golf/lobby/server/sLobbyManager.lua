@@ -183,8 +183,8 @@ function LobbyManager:StartGame(map_queue)
     map_queue.countdown_active = false
     self:SyncCountdown(nil, map_queue)
 
-    print("Ready players:")
-    output_table(map_queue:GetReadyPlayers())
+    -- print("Ready players:")
+    -- output_table(map_queue:GetReadyPlayers())
 
     GameManager:StartGame({
         course_enum = map_queue:GetCourseEnum(),

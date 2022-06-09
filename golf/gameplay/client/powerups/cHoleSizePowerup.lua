@@ -20,7 +20,9 @@ function HoleSizePowerup:Activate(args)
 
     self.active = true
     self.charges = shGameplayConfig.PowerupData[self.type].maxCharges
-    KeyPress:Subscribe(self.control)
+    if IsRedM then
+        KeyPress:Subscribe(self.control)
+    end
     self.keypress = Events:Subscribe("KeyUp", function(args) self:KeyUp(args) end)
     
 end
@@ -33,26 +35,33 @@ function HoleSizePowerup:KeyUp(args)
     if not self.active then return end
 
     if args.key == self.control and self:CanUse() then
-        self.charges = self.charges - 1
-        self.activated = true
-        self.cooldown_time = shGameplayConfig.PowerupData[self.type].duration
+        self:KeyPressed()
+    end
+end
+
+function HoleSizePowerup:KeyPressed()
+    if not self.active then return end
+    if not self:CanUse() then return end
+
+    self.charges = self.charges - 1
+    self.activated = true
+    self.cooldown_time = shGameplayConfig.PowerupData[self.type].duration
+    self:ModifyHoleMarkerSizes()
+    LocalPlayerBehaviors.DetectHoleBehavior:CreateDetectionVolume() -- Remake hole detection areas
+    CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
+    GamePlayUI:ModifyPowerup({
+        type = self.type,
+        duration = self.cooldown_time,
+        charges = self.charges
+    })
+    self.cooldown:Restart()
+
+    Citizen.CreateThread(function()
+        Wait(self.cooldown_time * 1000 - 1300)
+        self.activated = false
         self:ModifyHoleMarkerSizes()
         LocalPlayerBehaviors.DetectHoleBehavior:CreateDetectionVolume() -- Remake hole detection areas
-        CommonPowerupFX:Activate(LocalPlayer:GetPosition(), true)
-        GamePlayUI:ModifyPowerup({
-            type = self.type,
-            duration = self.cooldown_time,
-            charges = self.charges
-        })
-        self.cooldown:Restart()
-
-        Citizen.CreateThread(function()
-            Wait(self.cooldown_time * 1000 - 1300)
-            self.activated = false
-            self:ModifyHoleMarkerSizes()
-            LocalPlayerBehaviors.DetectHoleBehavior:CreateDetectionVolume() -- Remake hole detection areas
-        end)
-    end
+    end)
 end
 
 function HoleSizePowerup:ModifyHoleMarkerSizes()

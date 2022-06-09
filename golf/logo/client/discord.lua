@@ -7,7 +7,10 @@ function LogoUIManager:__init()
     Events:Subscribe("Render", function()
         --Render:SetTextEdge(1, Colors.Black)
         if not shGameplayConfig.ScreenshotMode then
-            Render:DrawText(vector2(0.001,0.96), "Join us at http://discord.paradigm.mp", Colors.SaddleBrown, 0.4, true)
+            -- TODO: fix for fivem
+            if IsRedM then
+                Render:DrawText(vector2(0.001,0.96), "Join us at http://discord.paradigm.mp", Colors.SaddleBrown, 0.4, true)
+            end
         end
     end)
     

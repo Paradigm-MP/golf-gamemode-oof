@@ -13,194 +13,75 @@ end
 
 function Courses:DeclareCourses()
 
+    -- self:AddCourse({
+    --     course_enum = CourseEnum.TestMapEasy,
+    --     map = "testmap.json",
+    --     difficulty = DifficultyEnum.Easy
+    -- })
+
     self:AddCourse({
-        course_enum = CourseEnum.ForestPathEasy,
-        map = "forestpath.json",
+        course_enum = CourseEnum.GolfingSocietyEasy,
+        map = "golfingsociety.json",
         difficulty = DifficultyEnum.Easy
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.BolgerGladeEasy,
-        map = "bolgerglade.json",
+        course_enum = CourseEnum.MorningwoodGraveyardEasy,
+        map = "morningwoodgraveyard.json",
         difficulty = DifficultyEnum.Easy
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.TwoFarmsEasy,
-        map = "twofarms.json",
-        difficulty = DifficultyEnum.Easy
-    })
-    
-    self:AddCourse({
-        course_enum = CourseEnum.CotorraSpringsEasy,
-        map = "cotorrasprings.json",
-        difficulty = DifficultyEnum.Easy
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.StrawberryMedium,
-        map = "strawberry.json",
+        course_enum = CourseEnum.VinewoodDamMedium,
+        map = "vinewooddam.json",
         difficulty = DifficultyEnum.Medium
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.ThievesLandingMedium,
-        map = "thieveslanding.json",
+        course_enum = CourseEnum.TheConcreteRiverMedium,
+        map = "theconcreteriver.json",
         difficulty = DifficultyEnum.Medium
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.OCreaghsRunMedium,
-        map = "ocreaghsrun.json",
+        course_enum = CourseEnum.LagoZancudoMedium,
+        map = "lagozancudo.json",
         difficulty = DifficultyEnum.Medium
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.RockFormationsMedium,
-        map = "rockformations.json",
+        course_enum = CourseEnum.DelPerroPierMedium,
+        map = "delperropier.json",
         difficulty = DifficultyEnum.Medium
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.AlpineWaterwayMedium,
-        map = "alpinewaterway.json",
+        course_enum = CourseEnum.InternationalAirportMedium,
+        map = "internationalairport.json",
         difficulty = DifficultyEnum.Medium
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.LakeDonJulioMedium,
-        map = "lakedonjulio.json",
-        difficulty = DifficultyEnum.Medium
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.QuakersCoveMedium,
-        map = "quakerscove.json",
-        difficulty = DifficultyEnum.Medium
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.StDenisTrainsHard,
-        map = "stdenistrains.json",
+        course_enum = CourseEnum.LandActReservoirHard,
+        map = "landactreservoir.json",
         difficulty = DifficultyEnum.Hard
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.FlatIronIslandsHard,
-        map = "flatironislands.json",
+        course_enum = CourseEnum.CozyCoveHard,
+        map = "cozycove.json",
         difficulty = DifficultyEnum.Hard
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.PlateausHard,
-        map = "plateaus.json",
-        difficulty = DifficultyEnum.Hard
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.CalumetRavineHard,
-        map = "calumetravine.json",
-        difficulty = DifficultyEnum.Hard
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.GranitePassHard,
-        map = "granitepass.json",
-        difficulty = DifficultyEnum.Hard
-    })
-    
-    self:AddCourse({
-        course_enum = CourseEnum.OwanjilaHard,
-        map = "owanjila.json",
-        difficulty = DifficultyEnum.Hard
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.BrandywineDropHard,
-        map = "brandywinedrop.json",
-        difficulty = DifficultyEnum.Hard
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.MountShannExtreme,
-        map = "mountshann.json",
+        course_enum = CourseEnum.MountGordoExtreme,
+        map = "mountgordo.json",
         difficulty = DifficultyEnum.Extreme
     })
 
     self:AddCourse({
-        course_enum = CourseEnum.FlatIronIslandsModded,
-        map = "flatironislands.json",
-        modded = true,
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.DonnerFallsExtreme,
-        map = "donnerfalls.json",
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.BridgeRunExtreme,
-        map = "bridgerun.json",
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.FortMercerModded,
-        map = "fortmercer.json",
-        modded = true,
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.TwoFarmsModded,
-        map = "twofarms.json",
-        modded = true,
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.StDenisRooftopsExtreme,
-        map = "stdenisrooftops.json",
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.GranitePassModded,
-        map = "granitepass.json",
-        modded = true,
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.MountHagenExtreme,
-        map = "mounthagen.json",
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.OwanjilaModded,
-        map = "owanjila.json",
-        modded = true,
-        difficulty = DifficultyEnum.Extreme
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.PlateauHopsInsane,
-        map = "plateauhops.json",
-        difficulty = DifficultyEnum.Insane
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.SnowTourInsane,
-        map = "snowtour.json",
-        difficulty = DifficultyEnum.Insane
-    })
-
-    self:AddCourse({
-        course_enum = CourseEnum.MantecaFallsInsane,
-        map = "mantecafalls.json",
+        course_enum = CourseEnum.ElysianIslandInsane,
+        map = "elysianisland.json",
         difficulty = DifficultyEnum.Insane
     })
 

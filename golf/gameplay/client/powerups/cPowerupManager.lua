@@ -9,6 +9,18 @@ function PowerupManager:__init()
 
     self:DeclareNetworkSubscriptions()
     self:InitializePowerupBehaviors()
+
+    if IsFiveM then
+        Keymap:Register("q", "keyboard", "Powerup", function(args)
+            if args.down then
+                for _, behavior in pairs(self.powerup_behaviors) do
+                    if behavior.active then
+                        behavior:KeyPressed()
+                    end
+                end
+            end
+        end)
+    end
 end
 
 function PowerupManager:DeclareNetworkSubscriptions()

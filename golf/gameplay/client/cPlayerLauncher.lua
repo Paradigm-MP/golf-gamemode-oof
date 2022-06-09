@@ -8,10 +8,14 @@ function PlayerLauncher:__init()
     self.angle_offset = vector3(0, 0, 0)
 
     self.local_num_strokes = 0 -- Local version of number of strokes for current hole
+
+    self.jump_control = Control.Jump
+    self.attack_control = Control.Attack
+    self.aim_control = Control.Aim
     
-    KeyPress:Subscribe(Control.Jump)
-    KeyPress:Subscribe(Control.Attack)
-    KeyPress:Subscribe(Control.Aim)
+    KeyPress:Subscribe(self.jump_control)
+    KeyPress:Subscribe(self.attack_control)
+    KeyPress:Subscribe(self.aim_control)
 
     Events:Subscribe('KeyUp', function(args)
         self:KeyUp(args)
@@ -26,9 +30,9 @@ end
 function PlayerLauncher:KeyPress(args)
     if not GameManager:GetIsGameInProgress() then return end
 
-    if args.key == Control.Attack then
+    if args.key == self.attack_control then
         self:ModifyPower(1)
-    elseif args.key == Control.Aim then
+    elseif args.key == self.aim_control then
         self:ModifyPower(-1)
     end
 
@@ -36,7 +40,7 @@ end
 
 function PlayerLauncher:ModifyPower(dir)
     if not self:CanIncreasePower() then return end
-    self:SetPower(self.power + dir * 0.3)
+    self:SetPower(self.power + dir * 0.2)
 end
 
 function PlayerLauncher:SetPower(power)
@@ -49,7 +53,7 @@ end
 function PlayerLauncher:KeyUp(args)
     if not GameManager:GetIsGameInProgress() then return end
     
-    if args.key == Control.Jump then
+    if args.key == self.jump_control then
         self:Fire()
         Camera:Reset()
     end
@@ -100,7 +104,7 @@ function PlayerLauncher:Fire()
         volume = math.min(1, self.power / self.max_power)
     })
     self:SetPower(0)
-    local fx_name = "PedKill"
+    local fx_name = IsRedM and "PedKill" or "MP_corona_switch"
     AnimPostFX:Play(fx_name)
 
     Citizen.CreateThread(function()

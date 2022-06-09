@@ -1,0 +1,46 @@
+{
+    "name": "Test Map",
+    "image": "images/bolgerglade.jpg",
+    "enabled": true,
+    "difficulty": "Easy",
+    "time":
+    {
+        "hour": 12, 
+        "minute": 0,
+        "timestepEnabled": false
+    },
+    "weather": "sunny",
+    "playerSpawnPoints":
+    [
+        {"pos": {"x": 1396.9404296875, "y": -1787.1409912109, "z": 66.781410217285},"heading": 72.120079040527}
+    ],
+    "holes": 
+    [
+        {
+            "pos": {"x": 1455.4461669922, "y": -1802.9512939453, "z": 70.354011535645},
+            "size": 4,
+            "par": 3
+        },
+        {
+            "pos": {"x": 1489.0159912109, "y": -1850.1502685547, "z": 71.190437316895},
+            "size": 4,
+            "par": 3
+        },
+        {
+            "pos": {"x": 1503.701171875, "y": -1799.0699462891, "z": 78.423950195312},
+            "size": 4,
+            "par": 3
+        },
+        {
+            "pos": {"x": 1535.2239990234, "y": -1703.2648925781, "z": 80.650009155273},
+            "size": 4,
+            "par": 3
+        }
+    ],
+    "invisibleObjects":
+    {
+    },
+    "objectSpawnPoints":
+    [
+    ]
+}

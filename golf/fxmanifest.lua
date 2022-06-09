@@ -1,8 +1,10 @@
 ui_page 'oof/client/ui/index.html'
 
+loadscreen 'loadscreen/client/html/index.html'
+
 client_scripts {
     -- oof module, nothing should precede this module
-    'oof/shared/game/IsRedM.lua',
+    'oof/shared/game/IsFiveM.lua',
     'oof/shared/lua-overloads/*.lua',
     'oof/shared/lua-additions/*.lua',
     'oof/shared/object-oriented/class.lua', -- no class instances on initial frame before this file
@@ -44,6 +46,7 @@ client_scripts {
     'oof/client/prompt/*.lua', -- Prompt class
     'oof/client/map/*.lua', -- Imap/Ipl class
     'oof/client/marker/*.lua', -- Marker class
+    'oof/client/water/*.lua', -- Water class
     'oof/client/apitest.lua',
     'gameplay/shared/shTest.lua',
     -- ui
@@ -99,7 +102,7 @@ client_scripts {
 
 server_scripts {
     -- api module, nothing should precede this module
-    'oof/shared/game/IsRedM.lua',
+    'oof/shared/game/IsFiveM.lua',
     'oof/server/sConfig.lua',
     'oof/shared/lua-overloads/*.lua',
     'oof/shared/lua-additions/*.lua',

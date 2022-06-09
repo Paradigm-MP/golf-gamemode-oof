@@ -9,7 +9,7 @@ end
 
 function CommonPowerupFX:Activate(position, is_local)
     if is_local then
-        local fx_to_play = "PlayerHealthCrackpot"
+        local fx_to_play = IsFiveM and "RaceTurbo" or "PlayerHealthCrackpot"
         AnimPostFX:Play(fx_to_play)
     
         Citizen.CreateThread(function()
@@ -23,7 +23,7 @@ function CommonPowerupFX:Activate(position, is_local)
 
     for i = 1, num_markers do
         local marker = Marker({
-            type = MarkerTypes.Sphere,
+            type = MarkerTypes.DebugSphere,
             position = position,
             direction = vector3(0, 0, 0),
             rotation = vector3(0,0,0),

@@ -20,7 +20,7 @@ end
 
 function Ufo:SpawnObject(pos, cb)
     self.ufo = Object({
-        model = 's_ufo01x',
+        model = IsRedM and 's_ufo01x' or "prop_bumper_car_01",
         position = pos,
         isNetwork = true,
         callback = function()

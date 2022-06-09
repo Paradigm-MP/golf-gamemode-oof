@@ -5,7 +5,7 @@ function shGameplayConfig:__init()
     self.DisableGolfing = false
     self.ScreenshotMode = false -- Disables UI elements for taking screenshots
 
-    self.HoleFlagpoleModal = "mp001_s_mp_finishline_banner01x"
+    self.HoleFlagpoleModal = IsRedM and "mp001_s_mp_finishline_banner01x" or "prop_golfflag"
 
     self.DifficultyColors = 
     {
